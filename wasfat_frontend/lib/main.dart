@@ -1,41 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wasfat_frontend/pages/list.dart';
 import 'package:wasfat_frontend/pages/signin.dart';
+import 'package:wasfat_frontend/pages/signup.dart';
 import 'package:wasfat_frontend/pages/splash.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'providers/auth_provider.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
-final router = GoRouter(initialLocation: '/splash', routes: [
-  GoRoute(
-    path: '/recipes',
-    builder: (context, state) => RecipesList(),
-  ),
-  GoRoute(
-    path: '/signin',
-    builder: (context, state) => SignIn(),
-  ),
-  GoRoute(
-    path: '/splash',
-    builder: (context, state) => Splash(),
-  ),
-]);
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'WasFat',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    final router = GoRouter(
+      initialLocation: '/recipes',
+      routes: [
+        GoRoute(
+          path: '/splash',
+          builder: (context, state) => Splash(),
+        ),
+        GoRoute(
+          path: '/signup',
+          builder: (context, state) => SignUp(),
+        ),
+        GoRoute(
+          path: '/signin',
+          builder: (context, state) => SignIn(),
+        ),
+        GoRoute(
+          path: '/recipes',
+          builder: (context, state) => RecipesList(),
+        ),
+      ],
+    );
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'WasFat',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        routerConfig: router,
       ),
-      routerConfig: router,
     );
   }
 }

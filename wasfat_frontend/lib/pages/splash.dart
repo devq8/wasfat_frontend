@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasfat_frontend/pages/signin.dart';
+import 'package:wasfat_frontend/providers/auth_provider.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -18,9 +19,15 @@ class _SplashState extends State<Splash> {
 
   _navigateToHome() async {
     print('App is started ...');
+    var authProvider = AuthProvider();
+
+    var isAuth = await authProvider.hasToken();
+
     await Future.delayed(Duration(milliseconds: 2000), () {});
 
-    context.go('/signin');
+    final String initialRoute = isAuth ? '/recipes' : '/signup';
+
+    context.go(initialRoute);
 
     print('Navigate => Home');
   }
@@ -28,6 +35,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

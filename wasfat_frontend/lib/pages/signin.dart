@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:wasfat_frontend/providers/auth_provider.dart';
 
 class SignIn extends StatelessWidget {
   SignIn({super.key});
@@ -11,9 +14,6 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('SignIn'),
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -21,7 +21,11 @@ class SignIn extends StatelessWidget {
             key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Spacer(
+                  flex: 5,
+                ),
                 Text(
                   'Sing In',
                   style: TextStyle(
@@ -50,6 +54,7 @@ class SignIn extends StatelessWidget {
                   },
                 ),
                 TextFormField(
+                  obscureText: true,
                   decoration: InputDecoration(
                     label: Text('Password'),
                     hintText: 'Enter your password',
@@ -62,8 +67,57 @@ class SignIn extends StatelessWidget {
                     return null;
                   },
                 ),
-                Spacer(),
-                ElevatedButton(onPressed: (() {}), child: Text('Sing In'))
+                Spacer(
+                  flex: 3,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFf14b24),
+                          minimumSize: Size.fromHeight(45)),
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          var didSignin = await context
+                              .read<AuthProvider>()
+                              .signin(
+                                  username: usernameController.text,
+                                  password: passwordController.text);
+                          if (didSignin) {
+                            context.go('/recipes');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Sign in is not successful!')));
+                          }
+                        } else {
+                          print('The form is not valid!');
+                        }
+                      },
+                      child: Text('Sign In')),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Don\'t have an account? '),
+                    InkWell(
+                      onTap: () {
+                        context.replace('/signup');
+                      },
+                      child: Text(
+                        'Sign up',
+                        style: TextStyle(
+                          color: Color(0xFFf14b24),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Spacer(
+                  flex: 5,
+                ),
               ],
             ),
           ),
