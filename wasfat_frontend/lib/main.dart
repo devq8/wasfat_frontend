@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:wasfat_frontend/models/recipe_model.dart';
+import 'package:wasfat_frontend/pages/details.dart';
 import 'package:wasfat_frontend/pages/list.dart';
 import 'package:wasfat_frontend/pages/signin.dart';
 import 'package:wasfat_frontend/pages/signup.dart';
 import 'package:wasfat_frontend/pages/splash.dart';
+import 'package:wasfat_frontend/providers/category_provider.dart';
+import 'package:wasfat_frontend/providers/recipe_provider.dart';
 
 import 'providers/auth_provider.dart';
 
@@ -20,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final router = GoRouter(
-      initialLocation: '/recipes',
+      initialLocation: '/splash',
       routes: [
         GoRoute(
           path: '/splash',
@@ -38,19 +43,28 @@ class MyApp extends StatelessWidget {
           path: '/recipes',
           builder: (context, state) => RecipesList(),
         ),
+        GoRoute(
+          path: '/details',
+          builder: (context, state) => RecipeDetails(
+            recipe: state.extra as Recipe,
+          ),
+        ),
       ],
     );
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => RecipeProvider()),
+        ChangeNotifierProvider(create: (context) => CategoryProvider()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'WasFat',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            primarySwatch: Colors.blue,
+            textTheme:
+                GoogleFonts.openSansTextTheme(Theme.of(context).textTheme)),
         routerConfig: router,
       ),
     );

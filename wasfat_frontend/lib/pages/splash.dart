@@ -54,9 +54,9 @@ class _SplashState extends State<Splash> {
               child: Text(
                 'WasFat',
                 style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFf14b24)),
               ),
             ),
           ],

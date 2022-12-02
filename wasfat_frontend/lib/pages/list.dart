@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wasfat_frontend/providers/recipe_provider.dart';
+import 'package:wasfat_frontend/widgets/recipe_card.dart';
 
-class RecipesList extends StatelessWidget {
+class RecipesList extends StatefulWidget {
   const RecipesList({super.key});
 
+  @override
+  State<RecipesList> createState() => _RecipesListState();
+}
+
+class _RecipesListState extends State<RecipesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +27,7 @@ class RecipesList extends StatelessWidget {
             DrawerHeader(
               decoration: BoxDecoration(color: Color(0xFFf9971c)),
               padding: EdgeInsets.only(
-                bottom: 18,
+                bottom: 15,
                 top: 15,
               ),
               child: Column(
@@ -76,40 +84,31 @@ class RecipesList extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(7.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
-          itemCount: 10,
-          itemBuilder: (BuildContext context, int index) {
-            return InkWell(
-              onTap: () {
-                print('Go to Recipe Details No. $index');
+      body: context.watch<RecipeProvider>().isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : RefreshIndicator(
+              onRefresh: () async {
+                print('Refresh indicator');
+                context.watch<RecipeProvider>().loadRecipes();
               },
-              child: Container(
-                padding: EdgeInsets.zero,
-                color: Colors.amber,
-                child: GridTile(
-                  footer: Container(
-                    height: 40,
-                    child: GridTileBar(
-                      title: Text(
-                        'Machboos',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      backgroundColor: Colors.black12,
-                    ),
+              child: Padding(
+                padding: const EdgeInsets.all(7.0),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 1 / 1.6,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
                   ),
-                  child: Text('test'),
+                  itemCount: context.watch<RecipeProvider>().recipes.length,
+                  itemBuilder: (context, index) => RecipeCard(
+                    recipe: context.watch<RecipeProvider>().recipes[index],
+                  ),
                 ),
               ),
-            );
-          },
-        ),
-      ),
+            ),
     );
   }
 }
