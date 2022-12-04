@@ -20,6 +20,11 @@ class _RecipesListState extends State<RecipesList> {
         backgroundColor: Color(0xFFf14b24),
         title: Text('Recipes List'),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFFf14b24),
+        child: Icon(Icons.add),
+        onPressed: () => context.push('/add_recipe'),
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -62,6 +67,7 @@ class _RecipesListState extends State<RecipesList> {
               title: Text('Categories'),
               onTap: () {
                 print('Go to Categories');
+                context.push('/categories');
               },
             ),
             ListTile(
