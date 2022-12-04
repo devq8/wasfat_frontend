@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wasfat_frontend/pages/signin.dart';
 import 'package:wasfat_frontend/providers/auth_provider.dart';
 
@@ -43,8 +44,8 @@ class _SplashState extends State<Splash> {
             Container(
               child: Image.asset(
                 'assets/images/logo.png',
-                height: 100,
-                width: 100,
+                height: 250,
+                width: 250,
               ),
             ),
             SizedBox(
@@ -53,10 +54,13 @@ class _SplashState extends State<Splash> {
             Container(
               child: Text(
                 'WasFat',
-                style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFf14b24)),
+                style: GoogleFonts.nerkoOne(
+                  textStyle: TextStyle(
+                    fontSize: 70,
+                    // fontWeight: FontWeight.bold,
+                    color: Color(0xFFf14b24),
+                  ),
+                ),
               ),
             ),
           ],
