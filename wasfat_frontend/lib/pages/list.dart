@@ -97,7 +97,7 @@ class _RecipesListState extends State<RecipesList> {
           : RefreshIndicator(
               onRefresh: () async {
                 print('Refresh indicator');
-                context.watch<RecipeProvider>().loadRecipes();
+                context.read<RecipeProvider>().loadRecipes();
               },
               child: Padding(
                 padding: const EdgeInsets.all(7.0),

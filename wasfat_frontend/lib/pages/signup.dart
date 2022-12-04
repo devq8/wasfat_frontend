@@ -97,16 +97,16 @@ class SignUp extends StatelessWidget {
                     ),
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        var didSignup =
+                        var errorMessage =
                             await context.read<AuthProvider>().signup(
                                   username: usernameController.text,
                                   password: passwordController.text,
                                 );
-                        if (didSignup) {
+                        if (errorMessage == null) {
                           context.go('/recipes');
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Sign up is not successful!')));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(errorMessage)));
                         }
                       } else {
                         print('The form is not valid');

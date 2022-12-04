@@ -25,12 +25,8 @@ class CategoryProvider extends ChangeNotifier {
           'There\'s ${categoriesJsonList.length} number of categories in the database!');
 
       for (int i = 0; i < categoriesJsonList.length; i++) {
-        var categoriesJson = categoriesJsonList[i] as Map;
-        var category = Category(
-          id: categoriesJson['id'],
-          title: categoriesJson['title'],
-          image: categoriesJson['image'],
-        );
+        var categoriesJson = categoriesJsonList[i] as Map<String, dynamic>;
+        var category = Category.fromJson(categoriesJson);
         categories.add(category);
       }
       print(

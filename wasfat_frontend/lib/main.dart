@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:wasfat_frontend/models/category_model.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
 import 'package:wasfat_frontend/pages/add_category.dart';
 import 'package:wasfat_frontend/pages/add_recipe.dart';
@@ -56,6 +57,10 @@ class MyApp extends StatelessWidget {
             recipe: state.extra as Recipe,
           ),
         ),
+        // GoRoute(
+        //   path: '/category_details',
+        //   builder: (context, state) => CategoriDetalis(category: state.extra as Category),
+        // ),
         GoRoute(
           path: '/categories',
           builder: (context, state) => Categories(),
