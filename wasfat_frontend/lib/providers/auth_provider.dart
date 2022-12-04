@@ -8,7 +8,7 @@ import 'package:wasfat_frontend/clients.dart';
 class AuthProvider extends ChangeNotifier {
   String? username;
 
-  Future<bool> signup(
+  Future<String?> signup(
       {required String username, required String password}) async {
     try {
       var response = await Client.dio.post('/auth/signup/', data: {
@@ -26,13 +26,21 @@ class AuthProvider extends ChangeNotifier {
       var pref = await SharedPreferences.getInstance();
       await pref.setString('token', token);
 
-      return true;
+      return null;
     } on DioError catch (e) {
       print(e.response!.data);
+
+      if (e.response != null &&
+          e.response!.data != null &&
+          e.response!.data is Map) {
+        var map = e.response!.data as Map;
+        return map.values.first.first;
+      }
     } catch (e) {
       print(e);
+      return "$e";
     }
-    return false;
+    return "unknown error";
   }
 
   Future<bool> signin(
@@ -66,7 +74,8 @@ class AuthProvider extends ChangeNotifier {
     var pref = await SharedPreferences.getInstance();
     var token = pref.getString('token');
 
-    if (token == null || JwtDecoder.isExpired(token)) {
+    if (token == null || token.isEmpty || JwtDecoder.isExpired(token)) {
+      pref.remove("token");
       return false;
     }
 

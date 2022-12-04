@@ -18,7 +18,7 @@ class CategoryCard extends StatelessWidget {
         child: Column(
           children: [
             Image.network(
-              category.image.toString(),
+              category.image,
               height: 200,
               fit: BoxFit.cover,
             ),

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wasfat_frontend/clients.dart';
+import 'package:wasfat_frontend/models/category_model.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
 
 class RecipeProvider extends ChangeNotifier {
@@ -30,7 +31,7 @@ class RecipeProvider extends ChangeNotifier {
         var recipe = Recipe(
           id: recipeJson['id'],
           title: recipeJson['title'],
-          category: recipeJson['category'].toString(),
+          category: Category.fromJson(recipeJson['category']),
           prepTime: recipeJson['prepTime'],
           cookTime: recipeJson['cookTime'],
           servings: recipeJson['servings'],

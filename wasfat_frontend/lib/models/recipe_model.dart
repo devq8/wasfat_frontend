@@ -1,7 +1,9 @@
+import 'package:wasfat_frontend/models/category_model.dart';
+
 class Recipe {
   int id;
   String title;
-  String? category;
+  Category category;
   int? prepTime;
   int? cookTime;
   int? servings;
@@ -11,7 +13,7 @@ class Recipe {
   Recipe({
     required this.id,
     required this.title,
-    this.category,
+    required this.category,
     this.prepTime,
     this.cookTime,
     this.servings,
