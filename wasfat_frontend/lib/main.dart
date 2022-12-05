@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wasfat_frontend/models/category_model.dart';
+import 'package:wasfat_frontend/clients.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
 import 'package:wasfat_frontend/pages/add_category.dart';
 import 'package:wasfat_frontend/pages/add_recipe.dart';
@@ -19,8 +23,51 @@ import 'providers/auth_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isAndroid) {
+    Client.dio.options = BaseOptions(baseUrl: "http://10.0.2.2:8000");
+  }
   runApp(MyApp());
 }
+
+final router = GoRouter(
+  initialLocation: '/splash',
+  routes: [
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => Splash(),
+    ),
+    GoRoute(
+      path: '/signup',
+      builder: (context, state) => SignUp(),
+    ),
+    GoRoute(
+      path: '/signin',
+      builder: (context, state) => SignIn(),
+    ),
+    GoRoute(
+      path: '/recipes',
+      builder: (context, state) => RecipesList(),
+    ),
+    GoRoute(
+      path: '/add_recipe',
+      builder: (context, state) => AddRecipe(),
+    ),
+    GoRoute(
+      path: '/details',
+      builder: (context, state) => RecipeDetails(
+        recipe: state.extra as Recipe,
+      ),
+    ),
+    GoRoute(
+      path: '/categories',
+      builder: (context, state) => Categories(),
+    ),
+    GoRoute(
+      path: '/add_category',
+      builder: (context, state) => AddCategory(),
+    ),
+  ],
+);
 
 class MyApp extends StatelessWidget {
   MyApp();
@@ -28,50 +75,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final router = GoRouter(
-      initialLocation: '/splash',
-      routes: [
-        GoRoute(
-          path: '/splash',
-          builder: (context, state) => Splash(),
-        ),
-        GoRoute(
-          path: '/signup',
-          builder: (context, state) => SignUp(),
-        ),
-        GoRoute(
-          path: '/signin',
-          builder: (context, state) => SignIn(),
-        ),
-        GoRoute(
-          path: '/recipes',
-          builder: (context, state) => RecipesList(),
-        ),
-        GoRoute(
-          path: '/add_recipe',
-          builder: (context, state) => AddRecipe(),
-        ),
-        GoRoute(
-          path: '/details',
-          builder: (context, state) => RecipeDetails(
-            recipe: state.extra as Recipe,
-          ),
-        ),
-        // GoRoute(
-        //   path: '/category_details',
-        //   builder: (context, state) => CategoriDetalis(category: state.extra as Category),
-        // ),
-        GoRoute(
-          path: '/categories',
-          builder: (context, state) => Categories(),
-        ),
-        GoRoute(
-          path: '/add_category',
-          builder: (context, state) => AddCategory(),
-        ),
-      ],
-    );
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),

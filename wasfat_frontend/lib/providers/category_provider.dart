@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wasfat_frontend/clients.dart';
@@ -36,5 +38,32 @@ class CategoryProvider extends ChangeNotifier {
     }
     isLoading = false;
     notifyListeners();
+  }
+
+  Future<void> addCategory({
+    required String title,
+    required File image,
+  }) async {
+    var response = await Client.dio.post("/categorys",
+        data: FormData.fromMap({
+          "title": title,
+          "image": await MultipartFile.fromFile(image.path),
+        }));
+
+    loadCategories();
+  }
+
+  Future<void> editCategory({
+    required int id,
+    required String title,
+    required File image,
+  }) async {
+    var response = await Client.dio.put("/categorys/${id}",
+        data: FormData.fromMap({
+          "title": title,
+          "image": await MultipartFile.fromFile(image.path),
+        }));
+
+    loadCategories();
   }
 }
