@@ -44,7 +44,7 @@ class CategoryProvider extends ChangeNotifier {
     required String title,
     required File image,
   }) async {
-    var response = await Client.dio.post("/categorys",
+    var response = await Client.dio.post("/categories/add/",
         data: FormData.fromMap({
           "title": title,
           "image": await MultipartFile.fromFile(image.path),
@@ -58,7 +58,7 @@ class CategoryProvider extends ChangeNotifier {
     required String title,
     required File image,
   }) async {
-    var response = await Client.dio.put("/categorys/${id}",
+    var response = await Client.dio.put("/categories/${id}/edit/",
         data: FormData.fromMap({
           "title": title,
           "image": await MultipartFile.fromFile(image.path),

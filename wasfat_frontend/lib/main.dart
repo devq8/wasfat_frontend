@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,13 +11,13 @@ import 'package:wasfat_frontend/pages/add_category.dart';
 import 'package:wasfat_frontend/pages/add_recipe.dart';
 import 'package:wasfat_frontend/pages/categories.dart';
 import 'package:wasfat_frontend/pages/details.dart';
+import 'package:wasfat_frontend/pages/edit_category.dart';
 import 'package:wasfat_frontend/pages/list.dart';
 import 'package:wasfat_frontend/pages/signin.dart';
 import 'package:wasfat_frontend/pages/signup.dart';
 import 'package:wasfat_frontend/pages/splash.dart';
 import 'package:wasfat_frontend/providers/category_provider.dart';
 import 'package:wasfat_frontend/providers/recipe_provider.dart';
-
 import 'providers/auth_provider.dart';
 
 void main() async {
@@ -65,6 +64,11 @@ final router = GoRouter(
     GoRoute(
       path: '/add_category',
       builder: (context, state) => AddCategory(),
+    ),
+    GoRoute(
+      path: '/edit_category',
+      builder: (context, state) =>
+          EditCategory(category: state.extra as Category),
     ),
   ],
 );
