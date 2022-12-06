@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wasfat_frontend/models/category_model.dart';
+import 'package:wasfat_frontend/pages/edit_category.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({required this.category});
@@ -13,7 +15,7 @@ class CategoryCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          print('Go to ${category.title} page');
+          context.push("/edit_category", extra: category);
         },
         child: Column(
           children: [

@@ -10,7 +10,7 @@ import '../models/category_model.dart';
 
 class EditCategory extends StatefulWidget {
   final Category category;
-  EditCategory({required this.category, super.key});
+  EditCategory({required this.category});
 
   @override
   State<EditCategory> createState() => _EditCategoryState();
@@ -34,77 +34,89 @@ class _EditCategoryState extends State<EditCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text("Edit Category")),
-        body: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: titleController,
-                decoration: InputDecoration(hintText: "Title"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Field is required";
-                  }
-
-                  return null;
-                },
-              ),
-              if (imageFile != null)
-                Image.file(
-                  imageFile!,
-                  width: 100,
-                  height: 100,
-                )
-              else
-                Image.network(
-                  widget.category.image,
-                  width: 100,
-                  height: 100,
-                ),
-              ElevatedButton(
-                  onPressed: () async {
-                    var file = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-
-                    if (file == null) {
-                      print("Use didnt select a file");
-                      return;
-                    }
-
-                    setState(() {
-                      imageFile = File(file.path);
-                      imageError = null;
-                    });
-                  },
-                  child: Text("Add Image")),
-              if (imageError != null)
-                Text(
-                  imageError!,
-                  style: TextStyle(color: Colors.red),
-                ),
-              Spacer(),
-              ElevatedButton(
-                  onPressed: () async {
-                    if (imageFile == null) {
-                      setState(() {
-                        imageError = "Required field";
-                      });
-                    }
-
-                    if (formKey.currentState!.validate() && imageFile != null) {
-                      await context.read<CategoryProvider>().editCategory(
-                            id: widget.category.id,
-                            title: titleController.text,
-                            image: imageFile!,
-                          );
-                      context.pop();
-                    }
-                  },
-                  child: Text("Save"))
-            ],
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text("Edit Category"),
+            backgroundColor: Color(0xFFf14b24),
           ),
-        ));
+          body: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: titleController,
+                  decoration: InputDecoration(hintText: "Title"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Field is required";
+                    }
+
+                    return null;
+                  },
+                ),
+                if (imageFile != null)
+                  Image.file(
+                    imageFile!,
+                    width: 100,
+                    height: 100,
+                  )
+                else
+                  Image.network(
+                    widget.category.image,
+                    width: 100,
+                    height: 100,
+                  ),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFf14b24),
+                        fixedSize: Size.fromWidth(150)),
+                    onPressed: () async {
+                      var file = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+
+                      if (file == null) {
+                        print("Use didnt select a file");
+                        return;
+                      }
+
+                      setState(() {
+                        imageFile = File(file.path);
+                        imageError = null;
+                      });
+                    },
+                    child: Text("Add Image")),
+                if (imageError != null)
+                  Text(
+                    imageError!,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                Spacer(),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFf14b24),
+                        fixedSize: Size.fromWidth(150)),
+                    onPressed: () async {
+                      if (imageFile == null) {
+                        setState(() {
+                          imageError = "Required field";
+                        });
+                      }
+
+                      if (formKey.currentState!.validate() &&
+                          imageFile != null) {
+                        await context.read<CategoryProvider>().editCategory(
+                              id: widget.category.id,
+                              title: titleController.text,
+                              image: imageFile!,
+                            );
+                        context.pop();
+                      }
+                    },
+                    child: Text("Save"))
+              ],
+            ),
+          )),
+    );
   }
 }

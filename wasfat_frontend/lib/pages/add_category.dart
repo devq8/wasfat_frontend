@@ -86,8 +86,6 @@ class _AddCategoryState extends State<AddCategory> {
                         backgroundColor: Color(0xFFf14b24),
                         fixedSize: Size.fromWidth(200)),
                     onPressed: () async {
-                      // form
-
                       if (imageFile == null) {
                         setState(() {
                           imageError = "Required field";
