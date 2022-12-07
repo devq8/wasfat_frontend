@@ -55,6 +55,7 @@ class _EditCategoryState extends State<EditCategory> {
                     return null;
                   },
                 ),
+                Spacer(),
                 if (imageFile != null)
                   Image.file(
                     imageFile!,
@@ -97,21 +98,12 @@ class _EditCategoryState extends State<EditCategory> {
                         backgroundColor: Color(0xFFf14b24),
                         fixedSize: Size.fromWidth(150)),
                     onPressed: () async {
-                      if (imageFile == null) {
-                        setState(() {
-                          imageError = "Required field";
-                        });
-                      }
-
-                      if (formKey.currentState!.validate() &&
-                          imageFile != null) {
-                        await context.read<CategoryProvider>().editCategory(
-                              id: widget.category.id,
-                              title: titleController.text,
-                              image: imageFile!,
-                            );
-                        context.pop();
-                      }
+                      await context.read<CategoryProvider>().editCategory(
+                            id: widget.category.id,
+                            title: titleController.text,
+                            image: imageFile,
+                          );
+                      context.pop();
                     },
                     child: Text("Save"))
               ],
