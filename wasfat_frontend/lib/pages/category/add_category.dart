@@ -44,6 +44,7 @@ class _AddCategoryState extends State<AddCategory> {
                     return null;
                   },
                 ),
+                Spacer(),
                 if (imageFile != null)
                   Image.file(
                     imageFile!,
