@@ -12,7 +12,7 @@ class CategoryProvider extends ChangeNotifier {
     loadCategories();
   }
 
-  Future<void> loadCategories() async {
+  Future<String?> loadCategories() async {
     print('Process of loading list of categories is started ... ');
     isLoading = true;
     notifyListeners();
@@ -32,11 +32,35 @@ class CategoryProvider extends ChangeNotifier {
       }
       print(
           'You have ${categories.length} categories in your database and the list has been created successfully!');
+
+      isLoading = false;
+      notifyListeners();
+
+      return null;
     } on DioError catch (e) {
+      print(e.response!.data);
+
+      if (e.response != null &&
+          e.response!.data != null &&
+          e.response!.data is Map) {
+        var map = e.response!.data as Map;
+
+        isLoading = false;
+        notifyListeners();
+
+        return map.values.first;
+      }
+    } catch (e) {
       print(e);
+
+      isLoading = false;
+      notifyListeners();
+
+      return '$e';
     }
     isLoading = false;
     notifyListeners();
+    return 'Unknown error';
   }
 
   Future<void> addCategory({

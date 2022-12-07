@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:wasfat_frontend/providers/category_provider.dart';
 
-import '../models/category_model.dart';
+import '../../models/category_model.dart';
 
 class EditCategory extends StatefulWidget {
   final Category category;
