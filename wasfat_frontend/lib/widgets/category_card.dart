@@ -11,7 +11,8 @@ class CategoryCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
+        color: Color.fromARGB(26, 241, 74, 36),
       ),
       child: InkWell(
         onTap: () {
@@ -24,7 +25,7 @@ class CategoryCard extends StatelessWidget {
               height: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 50),
             Padding(
               padding: EdgeInsets.all(5),
               child: Row(

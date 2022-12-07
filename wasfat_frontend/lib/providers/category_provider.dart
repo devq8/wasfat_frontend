@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wasfat_frontend/clients.dart';
@@ -55,13 +54,13 @@ class CategoryProvider extends ChangeNotifier {
 
   Future<void> editCategory({
     required int id,
-    required String title,
-    required File image,
+    required String? title,
+    required File? image,
   }) async {
-    var response = await Client.dio.put("/categories/${id}/edit/",
+    var response = await Client.dio.patch("/categories/${id}/edit/",
         data: FormData.fromMap({
-          "title": title,
-          "image": await MultipartFile.fromFile(image.path),
+          if (title != null && title.isNotEmpty) "title": title,
+          if (image != null) "image": await MultipartFile.fromFile(image!.path),
         }));
 
     loadCategories();
