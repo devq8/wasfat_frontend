@@ -65,4 +65,11 @@ class CategoryProvider extends ChangeNotifier {
 
     loadCategories();
   }
+
+  Future<void> deleteCategory({
+    required int id,
+  }) async {
+    var response = await Client.dio.delete("/categories/${id}/delete/");
+    loadCategories();
+  }
 }

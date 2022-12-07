@@ -93,19 +93,35 @@ class _EditCategoryState extends State<EditCategory> {
                     style: TextStyle(color: Colors.red),
                   ),
                 Spacer(),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFf14b24),
-                        fixedSize: Size.fromWidth(150)),
-                    onPressed: () async {
-                      await context.read<CategoryProvider>().editCategory(
-                            id: widget.category.id,
-                            title: titleController.text,
-                            image: imageFile,
-                          );
-                      context.pop();
-                    },
-                    child: Text("Save"))
+                Row(
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFff0000),
+                            fixedSize: Size.fromWidth(150)),
+                        onPressed: () async {
+                          await context
+                              .read<CategoryProvider>()
+                              .deleteCategory(id: widget.category.id);
+                          context.pop();
+                        },
+                        child: Text("Delete")),
+                    Spacer(),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFf14b24),
+                            fixedSize: Size.fromWidth(150)),
+                        onPressed: () async {
+                          await context.read<CategoryProvider>().editCategory(
+                                id: widget.category.id,
+                                title: titleController.text,
+                                image: imageFile,
+                              );
+                          context.pop();
+                        },
+                        child: Text("Save")),
+                  ],
+                )
               ],
             ),
           )),
