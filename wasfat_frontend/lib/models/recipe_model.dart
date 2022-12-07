@@ -20,4 +20,17 @@ class Recipe {
     this.method,
     this.image,
   });
+
+  factory Recipe.fromJson(Map<String, dynamic> json) {
+    return Recipe(
+      id: json['id'],
+      title: json['title'],
+      category: Category.fromJson(json['category']),
+      prepTime: json['prepTime'],
+      cookTime: json['cookTime'],
+      servings: json['servings'],
+      method: json['method'],
+      image: json['image'],
+    );
+  }
 }

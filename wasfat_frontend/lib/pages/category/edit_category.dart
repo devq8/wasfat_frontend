@@ -1,32 +1,43 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import '../providers/category_provider.dart';
+import 'package:wasfat_frontend/providers/category_provider.dart';
 
-class AddCategory extends StatefulWidget {
-  const AddCategory({super.key});
+import '../../models/category_model.dart';
+
+class EditCategory extends StatefulWidget {
+  final Category category;
+  EditCategory({required this.category});
 
   @override
-  State<AddCategory> createState() => _AddCategoryState();
+  State<EditCategory> createState() => _EditCategoryState();
 }
 
-class _AddCategoryState extends State<AddCategory> {
+class _EditCategoryState extends State<EditCategory> {
   final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final priceController = TextEditingController();
 
   File? imageFile;
-
   String? imageError;
 
   var formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    titleController.text = widget.category.title;
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Add Category"),
+            title: Text("Edit Category"),
             backgroundColor: Color(0xFFf14b24),
           ),
           body: Form(
@@ -51,21 +62,21 @@ class _AddCategoryState extends State<AddCategory> {
                     height: 100,
                   )
                 else
-                  Container(
+                  Image.network(
+                    widget.category.image,
                     width: 100,
                     height: 100,
                   ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFf14b24),
-                      fixedSize: Size.fromWidth(110),
-                    ),
+                        backgroundColor: Color(0xFFf14b24),
+                        fixedSize: Size.fromWidth(150)),
                     onPressed: () async {
                       var file = await ImagePicker()
                           .pickImage(source: ImageSource.gallery);
 
                       if (file == null) {
-                        print("User didn't select a file");
+                        print("Use didnt select a file");
                         return;
                       }
 
@@ -84,7 +95,7 @@ class _AddCategoryState extends State<AddCategory> {
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFf14b24),
-                        fixedSize: Size.fromWidth(200)),
+                        fixedSize: Size.fromWidth(150)),
                     onPressed: () async {
                       if (imageFile == null) {
                         setState(() {
@@ -94,14 +105,15 @@ class _AddCategoryState extends State<AddCategory> {
 
                       if (formKey.currentState!.validate() &&
                           imageFile != null) {
-                        await context.read<CategoryProvider>().addCategory(
+                        await context.read<CategoryProvider>().editCategory(
+                              id: widget.category.id,
                               title: titleController.text,
                               image: imageFile!,
                             );
                         context.pop();
                       }
                     },
-                    child: Text("Add Category"))
+                    child: Text("Save"))
               ],
             ),
           )),
