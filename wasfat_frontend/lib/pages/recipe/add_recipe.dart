@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:wasfat_frontend/models/category_model.dart';
+import 'package:wasfat_frontend/providers/category_provider.dart';
 import 'package:wasfat_frontend/providers/recipe_provider.dart';
-import '../providers/category_provider.dart';
 
 class AddRecipe extends StatefulWidget {
   const AddRecipe({super.key});
@@ -21,6 +21,8 @@ class _AddRecipeState extends State<AddRecipe> {
   final prepController = TextEditingController();
   final cookController = TextEditingController();
   final methodController = TextEditingController();
+
+  Category? selectedCategory;
 
   final Category cat = Category(id: 1, title: 'title', image: 'image');
 
@@ -54,16 +56,15 @@ class _AddRecipeState extends State<AddRecipe> {
                     return null;
                   },
                 ),
-                TextFormField(
-                  controller: categoryController,
-                  decoration: InputDecoration(
-                      hintText: "Enter the category", label: Text('Category')),
-                  validator: (value) {
-                    // if (value == null || value.isEmpty) {
-                    //   return "Field is required";
-                    // }
-
-                    return null;
+                DropdownButton<Category>(
+                  items: context
+                      .watch<CategoryProvider>()
+                      .categories
+                      .map((e) =>
+                          DropdownMenuItem<Category>(child: Text(e.title)))
+                      .toList(),
+                  onChanged: (value) {
+                    selectedCategory = value;
                   },
                 ),
                 TextFormField(
@@ -149,9 +150,10 @@ class _AddRecipeState extends State<AddRecipe> {
                       }
 
                       if (formKey.currentState!.validate() &&
-                          imageFile != null) {
+                          imageFile != null &&
+                          selectedCategory != null) {
                         await context.read<RecipeProvider>().addRecipe(
-                              category: cat,
+                              category: selectedCategory!,
                               cookTime: int.parse(cookController.text),
                               method: methodController.text,
                               prepTime: int.parse(prepController.text),

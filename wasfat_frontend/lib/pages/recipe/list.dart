@@ -103,7 +103,17 @@ class _RecipesListState extends State<RecipesList> {
                 children: [
                   Container(
                     height: 50,
-                    child: Text('ingredeints'),
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 3,
+                        itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                color: Colors.green,
+                              ),
+                            )),
                   ),
                   Expanded(
                     child: Padding(
