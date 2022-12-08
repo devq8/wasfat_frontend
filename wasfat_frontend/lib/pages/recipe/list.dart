@@ -115,6 +115,16 @@ class _RecipesListState extends State<RecipesList> {
                               ),
                             )),
                   ),
+                  // Container(
+                  //   height: 50,
+                  //   child: SliverList(
+                  //     delegate: SliverChildBuilderDelegate((context, index) {
+                  //       return Container(
+                  //         height: 20,
+                  //       );
+                  //     }),
+                  //   ),
+                  // ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(7.0),
