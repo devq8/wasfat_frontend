@@ -101,10 +101,16 @@ class _RecipesListState extends State<RecipesList> {
               },
               child: Column(
                 children: [
-                  Container(
-                    height: 50,
-                    child: Text('ingredeints'),
-                  ),
+                  // Container(
+                  //   height: 50,
+                  //   child: SliverList(
+                  //     delegate: SliverChildBuilderDelegate((context, index) {
+                  //       return Container(
+                  //         height: 20,
+                  //       );
+                  //     }),
+                  //   ),
+                  // ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(7.0),
