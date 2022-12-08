@@ -7,15 +7,27 @@ import 'package:wasfat_frontend/providers/ingredient_provider.dart';
 import 'package:wasfat_frontend/widgets/category_card.dart';
 import 'package:wasfat_frontend/widgets/ingredient_card.dart';
 
-class Ingredients extends StatelessWidget {
+class Ingredients extends StatefulWidget {
   final Category category;
   Ingredients({required this.category});
+
+  @override
+  State<Ingredients> createState() => _IngredientsState();
+}
+
+class _IngredientsState extends State<Ingredients> {
+  @override
+  void initState() {
+    context
+        .read<IngredientProvider>()
+        .loadIngredients(category_id: widget.category.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ingredients of ${category.title}'),
+        title: Text('Ingredients of ${widget.category.title}'),
         backgroundColor: Color(0xFFf14b24),
       ),
       floatingActionButton: FloatingActionButton(
@@ -31,7 +43,7 @@ class Ingredients extends StatelessWidget {
               onRefresh: () async {
                 context
                     .read<IngredientProvider>()
-                    .loadIngredients(category_id: category.id);
+                    .loadIngredients(category_id: widget.category.id);
               },
               child: Padding(
                 padding: EdgeInsets.all(7),
