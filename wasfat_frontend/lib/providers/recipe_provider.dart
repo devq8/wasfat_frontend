@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wasfat_frontend/clients.dart';
 import 'package:wasfat_frontend/models/category_model.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
+import 'package:wasfat_frontend/pages/add_recipe.dart';
 
 class RecipeProvider extends ChangeNotifier {
   List<Recipe> recipes = [];
@@ -50,7 +55,86 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> editRecipe({}) async {}
+  // Future<void> editRecipe({
+  //   required int id,
+  //   required String title,
+  //   required Category category,
+  //   required String ingredients,
+  //   required String prepTime,
+  //   required String cookTime,
+  //   required String method,
+  //   required File image,
+  // }) async {
+  //   var response = await Client.dio.put('${id}',
+  //       data: FormData.fromMap({
+  //         'category': category,
+  //         'title': title,
+  //         'ingredients': ingredients,
+  //         'prepTime': prepTime,
+  //         'cookTime': cookTime,
+  //         'method': method,
+  //         'image': await MultipartFile.fromFile(image.path),
+  //       }));
 
-  // Future<void> deleteRecipe({}) async {}
+  //   loadRecipes();
+  // }
+
+  // Future<void> patchRecipe({
+  //   required Recipe recipe,
+  //   String? title,
+  //   String? ingredients,
+  //   String? prepTime,
+  //   String? cookTime,
+  //   String? method,
+  //   File? image,
+  // }) async {
+  //   var response = await Client.dio.patch('${recipe.id}',
+  //       data: FormData.fromMap({
+  //         if (title != null) 'title': title,
+  //         if (ingredients != null) 'ingredients': ingredients,
+  //         if (prepTime != null) 'prepTime': prepTime,
+  //         if (cookTime != null) 'cookTime': cookTime,
+  //         if (method != null) 'method': method,
+  //         if (image != null) 'image': await MultipartFile.fromFile(image.path),
+  //       }));
+
+  //   loadRecipes();
+  // }
+
+  Future<void> addRecipe({
+    int? profile,
+    required String title,
+    Category? category,
+    required int prepTime,
+    required int cookTime,
+    required String method,
+    required File image,
+  }) async {
+    var pref = await SharedPreferences.getInstance();
+    var token = pref.getString('token');
+    if (token == null || token.isEmpty || JwtDecoder.isExpired(token)) {
+      pref.remove("token");
+      return;
+    }
+    var tokenMap = JwtDecoder.decode(token);
+    profile = tokenMap['user_id'];
+
+    var response = await Client.dio.post('/recipes/add/',
+        data: FormData.fromMap({
+          'profile': profile,
+          'title': title,
+          'category': category,
+          'prepTime': prepTime,
+          'cookTime': cookTime,
+          'method': method,
+          'image': await MultipartFile.fromFile(image.path),
+        }));
+
+    loadRecipes();
+  }
+
+  void deleteRecipe(int id) async {
+    await Client.dio.delete('${id}');
+    loadRecipes();
+  }
 }
