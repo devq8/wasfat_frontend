@@ -28,7 +28,7 @@ class SignUp extends StatelessWidget {
                   flex: 5,
                 ),
                 Text(
-                  'Sing Up',
+                  'Sign Up',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,

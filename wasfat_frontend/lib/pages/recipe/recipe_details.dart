@@ -72,11 +72,11 @@ class RecipeDetails extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Ingredients will be showing here',
-                    style: TextStyle(
-                      fontSize: 18,
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
                     ),
+                    children: [],
                   ),
                 ),
                 Container(

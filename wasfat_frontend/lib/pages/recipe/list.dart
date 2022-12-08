@@ -99,20 +99,33 @@ class _RecipesListState extends State<RecipesList> {
                 print('Refresh indicator');
                 context.read<RecipeProvider>().loadRecipes();
               },
-              child: Padding(
-                padding: const EdgeInsets.all(7.0),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 1 / 1.6,
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
+              child: Column(
+                children: [
+                  Container(
+                    height: 50,
+                    child: Text('ingredeints'),
                   ),
-                  itemCount: context.watch<RecipeProvider>().recipes.length,
-                  itemBuilder: (context, index) => RecipeCard(
-                    recipe: context.watch<RecipeProvider>().recipes[index],
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 1 / 1.6,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5,
+                        ),
+                        itemCount:
+                            context.watch<RecipeProvider>().recipes.length,
+                        itemBuilder: (context, index) => RecipeCard(
+                          recipe:
+                              context.watch<RecipeProvider>().recipes[index],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
     );

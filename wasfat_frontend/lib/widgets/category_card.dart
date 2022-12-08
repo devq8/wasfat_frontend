@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasfat_frontend/models/category_model.dart';
-import 'package:wasfat_frontend/pages/edit_category.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({required this.category});
@@ -16,19 +15,27 @@ class CategoryCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          context.push("/edit_category", extra: category);
+          context.push("/ingredients", extra: category);
         },
         child: Column(
           children: [
-            Image.network(
-              category.image,
+            Container(
               height: 200,
-              fit: BoxFit.cover,
+              width: 150,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    category.image,
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 50),
             Padding(
               padding: EdgeInsets.all(5),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -36,6 +43,23 @@ class CategoryCard extends StatelessWidget {
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     overflow: TextOverflow.ellipsis,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () =>
+                            context.push("/edit_category", extra: category),
+                        icon: Icon(Icons.edit),
+                        label: Text('Edit'),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () => {},
+                        icon: Icon(Icons.delete),
+                        label: Text('Delete'),
+                      )
+                    ],
+                  )
                 ],
               ),
             )
