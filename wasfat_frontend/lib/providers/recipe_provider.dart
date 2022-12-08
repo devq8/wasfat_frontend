@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wasfat_frontend/clients.dart';
+import 'package:wasfat_frontend/models/category_model.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
-import 'package:wasfat_frontend/pages/add_recipe.dart';
 
 class RecipeProvider extends ChangeNotifier {
   List<Recipe> recipes = [];
@@ -108,7 +108,7 @@ class RecipeProvider extends ChangeNotifier {
   Future<void> addRecipe({
     int? profile,
     required String title,
-    Category? category,
+    required Category category,
     required int prepTime,
     required int cookTime,
     required String method,
@@ -127,7 +127,7 @@ class RecipeProvider extends ChangeNotifier {
         data: FormData.fromMap({
           'profile': profile,
           'title': title,
-          'category': category,
+          'category': category.id,
           'prepTime': prepTime,
           'cookTime': cookTime,
           'method': method,
