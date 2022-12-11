@@ -40,7 +40,7 @@ class IngredientProvider extends ChangeNotifier {
 
       for (int i = 0; i < ingredientsJsonList.length; i++) {
         var ingredientsJson = ingredientsJsonList[i] as Map<String, dynamic>;
-        var ingredient = Ingredient.fromJson(ingredientsJson);
+        var ingredient = Ingredient.fromMap(ingredientsJson);
         var imageResponse = await client.get(
             'https://bing-image-search1.p.rapidapi.com/images/search?q=${ingredient.title}');
 

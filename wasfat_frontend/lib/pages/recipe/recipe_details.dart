@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
 
@@ -19,9 +20,8 @@ class RecipeDetails extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: IconButton(
-                    onPressed: () => {
-                          print('This should redirect to Edit Recipe page!'),
-                        },
+                    onPressed: () =>
+                        context.push('/edit_recipe', extra: recipe),
                     icon: Icon(Icons.more_vert)),
               ),
             ],
@@ -85,13 +85,19 @@ class RecipeDetails extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
+                    Icon(Icons.person),
+                    Text('${recipe.servings}   '),
+                    Icon(Icons.av_timer),
+                    Text('${recipe.prepTime} min '),
+                    Icon(Icons.timer_outlined),
+                    Text('${recipe.cookTime} min '),
                     Icon(
                       Icons.star,
                       color: Colors.orange,
                     ),
                     Text('4.5 (231)'),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      padding: const EdgeInsets.only(right: 15.0, left: 5),
                       child: Icon(Icons.favorite, color: Colors.red),
                     ),
                   ],
@@ -116,9 +122,13 @@ class RecipeDetails extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text('Created by Khaled'),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text('Created by Khaled'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -130,9 +140,9 @@ class RecipeDetails extends StatelessWidget {
                   child: Wrap(
                     spacing: 6,
                     children: [
-                      for (int i = 0; i < 10; i++)
+                      for (int i = 0; i < recipe.ingredients.length; i++)
                         Chip(
-                          label: Text('Ingredient $i'),
+                          label: Text('${recipe.ingredients[i].title}'),
                         )
                     ],
                   ),

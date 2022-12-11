@@ -14,6 +14,7 @@ import 'package:wasfat_frontend/pages/ingredient/add_ingredient.dart';
 import 'package:wasfat_frontend/pages/ingredient/ingredients.dart';
 import 'package:wasfat_frontend/pages/recipe/add_recipe.dart';
 import 'package:wasfat_frontend/pages/category/categories.dart';
+import 'package:wasfat_frontend/pages/recipe/edit_recipe.dart';
 import 'package:wasfat_frontend/pages/recipe/recipe_details.dart';
 import 'package:wasfat_frontend/pages/category/edit_category.dart';
 import 'package:wasfat_frontend/pages/recipe/list.dart';
@@ -57,6 +58,12 @@ final router = GoRouter(
     GoRoute(
       path: '/add_recipe',
       builder: (context, state) => AddRecipe(),
+    ),
+    GoRoute(
+      path: '/edit_recipe',
+      builder: (context, state) => EditRecipe(
+        recipe: state.extra as Recipe,
+      ),
     ),
     GoRoute(
       path: '/details',

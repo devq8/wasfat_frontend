@@ -33,8 +33,8 @@ class RecipeProvider extends ChangeNotifier {
           'There\'s ${recipesJsonList.length} number of recipes in the database!');
       for (int i = 0; i < recipesJsonList.length; i++) {
         var recipeJson = recipesJsonList[i] as Map<String, dynamic>;
-        print(recipeJson);
-        var recipe = Recipe.fromJson(recipeJson);
+        // print(recipeJson);
+        var recipe = Recipe.fromMap(recipeJson);
         if (recipe.image == '' || recipe.image == null) {
           Dio client = Dio();
           client.options.headers['X-RapidAPI-Key'] =
@@ -114,7 +114,7 @@ class RecipeProvider extends ChangeNotifier {
     required int prepTime,
     required int cookTime,
     required String method,
-    // required List<Ingredient> ingredients,
+    required List<Ingredient> ingredients,
     required File image,
   }) async {
     try {
@@ -135,13 +135,15 @@ class RecipeProvider extends ChangeNotifier {
             'prepTime': prepTime,
             'cookTime': cookTime,
             'method': method,
-            // 'ingredients': ingredients.map((e) => e.id),
+            'ingredients': ingredients.map((e) => e.id).toList(),
             'image': await MultipartFile.fromFile(image.path),
           }));
 
       loadRecipes();
+
+      return null;
     } on DioError catch (e) {
-      print(e.response!.data);
+      print(e);
 
       if (e.response != null &&
           e.response!.data != null &&
