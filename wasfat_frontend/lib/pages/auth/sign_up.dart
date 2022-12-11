@@ -115,7 +115,6 @@ class SignUp extends StatelessWidget {
                     child: Text('Sign Up'),
                   ),
                 ),
-                // Button(buttonText: 'Sign Up', outlinedButton: false),
                 SizedBox(
                   height: 15,
                 ),

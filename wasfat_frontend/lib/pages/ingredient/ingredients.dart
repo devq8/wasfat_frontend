@@ -18,9 +18,11 @@ class Ingredients extends StatefulWidget {
 class _IngredientsState extends State<Ingredients> {
   @override
   void initState() {
-    context
-        .read<IngredientProvider>()
-        .loadIngredients(category_id: widget.category.id);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context
+          .read<IngredientProvider>()
+          .loadIngredients(category_id: widget.category.id);
+    });
   }
 
   @override
@@ -41,7 +43,7 @@ class _IngredientsState extends State<Ingredients> {
             )
           : RefreshIndicator(
               onRefresh: () async {
-                context
+                await context
                     .read<IngredientProvider>()
                     .loadIngredients(category_id: widget.category.id);
               },

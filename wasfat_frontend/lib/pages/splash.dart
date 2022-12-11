@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wasfat_frontend/pages/auth/signin.dart';
+import 'package:wasfat_frontend/pages/auth/sign_in.dart';
 import 'package:wasfat_frontend/providers/auth_provider.dart';
 
 class Splash extends StatefulWidget {

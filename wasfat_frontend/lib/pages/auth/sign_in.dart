@@ -27,7 +27,7 @@ class SignIn extends StatelessWidget {
                   flex: 5,
                 ),
                 Text(
-                  'Sing In',
+                  'Sign In',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -78,16 +78,16 @@ class SignIn extends StatelessWidget {
                           minimumSize: Size.fromHeight(45)),
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          var didSignin = await context
+                          var errorMessage = await context
                               .read<AuthProvider>()
                               .signin(
                                   username: usernameController.text,
                                   password: passwordController.text);
-                          if (didSignin) {
+                          if (errorMessage == null) {
                             context.go('/recipes');
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Sign in is not successful!')));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(errorMessage)));
                           }
                         } else {
                           print('The form is not valid!');

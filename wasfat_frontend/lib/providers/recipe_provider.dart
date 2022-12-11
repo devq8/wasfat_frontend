@@ -6,6 +6,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wasfat_frontend/clients.dart';
 import 'package:wasfat_frontend/models/category_model.dart';
+import 'package:wasfat_frontend/models/ingredient_model.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
 
 class RecipeProvider extends ChangeNotifier {
@@ -32,7 +33,8 @@ class RecipeProvider extends ChangeNotifier {
           'There\'s ${recipesJsonList.length} number of recipes in the database!');
       for (int i = 0; i < recipesJsonList.length; i++) {
         var recipeJson = recipesJsonList[i] as Map<String, dynamic>;
-        var recipe = Recipe.fromJson(recipeJson);
+        // print(recipeJson);
+        var recipe = Recipe.fromMap(recipeJson);
         if (recipe.image == '' || recipe.image == null) {
           Dio client = Dio();
           client.options.headers['X-RapidAPI-Key'] =
@@ -105,36 +107,55 @@ class RecipeProvider extends ChangeNotifier {
   //   loadRecipes();
   // }
 
-  Future<void> addRecipe({
-    int? profile,
+  Future<String?> addRecipe({
+    required int profile,
     required String title,
     required Category category,
     required int prepTime,
     required int cookTime,
     required String method,
+    required List<Ingredient> ingredients,
     required File image,
   }) async {
-    var pref = await SharedPreferences.getInstance();
-    var token = pref.getString('token');
-    if (token == null || token.isEmpty || JwtDecoder.isExpired(token)) {
-      pref.remove("token");
-      return;
+    try {
+      var pref = await SharedPreferences.getInstance();
+      var token = pref.getString('token');
+      if (token == null || token.isEmpty || JwtDecoder.isExpired(token)) {
+        pref.remove("token");
+        return 'Your session is expired, please login again!';
+      }
+      var tokenMap = JwtDecoder.decode(token);
+      profile = tokenMap['user_id'];
+
+      var response = await Client.dio.post('/recipes/add/',
+          data: FormData.fromMap({
+            'profile': profile,
+            'title': title,
+            'category': category.id,
+            'prepTime': prepTime,
+            'cookTime': cookTime,
+            'method': method,
+            'ingredients': ingredients.map((e) => e.id).toList(),
+            'image': await MultipartFile.fromFile(image.path),
+          }));
+
+      loadRecipes();
+
+      return null;
+    } on DioError catch (e) {
+      print(e);
+
+      if (e.response != null &&
+          e.response!.data != null &&
+          e.response!.data is Map) {
+        var map = e.response!.data as Map;
+        return map.values.first.first;
+      }
+    } catch (e) {
+      print(e);
+      return "$e";
     }
-    var tokenMap = JwtDecoder.decode(token);
-    profile = tokenMap['user_id'];
-
-    var response = await Client.dio.post('/recipes/add/',
-        data: FormData.fromMap({
-          'profile': profile,
-          'title': title,
-          'category': category.id,
-          'prepTime': prepTime,
-          'cookTime': cookTime,
-          'method': method,
-          'image': await MultipartFile.fromFile(image.path),
-        }));
-
-    loadRecipes();
+    return "Unknown error!";
   }
 
   void deleteRecipe(int id) async {

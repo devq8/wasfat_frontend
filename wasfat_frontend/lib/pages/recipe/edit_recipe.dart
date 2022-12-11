@@ -9,18 +9,20 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wasfat_frontend/models/category_model.dart';
 import 'package:wasfat_frontend/models/ingredient_model.dart';
+import 'package:wasfat_frontend/models/recipe_model.dart';
 import 'package:wasfat_frontend/providers/category_provider.dart';
 import 'package:wasfat_frontend/providers/ingredient_provider.dart';
 import 'package:wasfat_frontend/providers/recipe_provider.dart';
 
-class AddRecipe extends StatefulWidget {
-  const AddRecipe({super.key});
+class EditRecipe extends StatefulWidget {
+  EditRecipe({required this.recipe});
+  final Recipe recipe;
 
   @override
-  State<AddRecipe> createState() => _AddRecipeState();
+  State<EditRecipe> createState() => _EditRecipeState();
 }
 
-class _AddRecipeState extends State<AddRecipe> {
+class _EditRecipeState extends State<EditRecipe> {
   final titleController = TextEditingController();
 
   final prepController = TextEditingController();
@@ -29,6 +31,10 @@ class _AddRecipeState extends State<AddRecipe> {
 
   @override
   void initState() {
+    titleController.text = widget.recipe.title;
+    // prepController.text = widget.recipe.prepTime;
+    // titleController.text = widget.recipe.title;
+    // titleController.text = widget.recipe.title;
     super.initState();
   }
 
@@ -45,8 +51,6 @@ class _AddRecipeState extends State<AddRecipe> {
   Category? selectedCategory;
   List<Ingredient> selectedIngredients = [];
 
-  final Category cat = Category(id: 1, title: 'title', image: 'image');
-
   File? imageFile;
 
   String? imageError;
@@ -58,7 +62,7 @@ class _AddRecipeState extends State<AddRecipe> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Add Recipe"),
+            title: Text("Edit Recipe"),
             backgroundColor: Color(0xFFf14b24),
           ),
           body: Padding(
@@ -222,14 +226,14 @@ class _AddRecipeState extends State<AddRecipe> {
 
                           var tokenMap =
                               JwtDecoder.decode(pref.getString('token')!);
-                          // print(tokenMap['user_id']);
-                          // print(titleController.text);
-                          // print(selectedCategory);
-                          // print(int.parse(prepController.text));
-                          // print(int.parse(cookController.text));
-                          // print(methodController.text);
-                          // print(selectedIngredients);
-                          // print(imageFile);
+                          print(tokenMap['user_id']);
+                          print(titleController.text);
+                          print(selectedCategory);
+                          print(int.parse(prepController.text));
+                          print(int.parse(cookController.text));
+                          print(methodController.text);
+                          print(selectedIngredients);
+                          print(imageFile);
                           var errorMessage =
                               await context.read<RecipeProvider>().addRecipe(
                                     profile: tokenMap['user_id'],

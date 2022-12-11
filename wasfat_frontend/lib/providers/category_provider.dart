@@ -27,7 +27,7 @@ class CategoryProvider extends ChangeNotifier {
 
       for (int i = 0; i < categoriesJsonList.length; i++) {
         var categoriesJson = categoriesJsonList[i] as Map<String, dynamic>;
-        var category = Category.fromJson(categoriesJson);
+        var category = Category.fromMap(categoriesJson);
         categories.add(category);
       }
       print(
