@@ -1,4 +1,5 @@
 import 'package:wasfat_frontend/models/category_model.dart';
+import 'package:wasfat_frontend/models/ingredient_model.dart';
 
 class Recipe {
   int id;
@@ -7,6 +8,7 @@ class Recipe {
   int? prepTime;
   int? cookTime;
   int? servings;
+  Ingredient? ingredients;
   String? method;
   String? image;
 
@@ -17,6 +19,7 @@ class Recipe {
     this.prepTime,
     this.cookTime,
     this.servings,
+    this.ingredients,
     this.method,
     this.image,
   });
@@ -29,6 +32,7 @@ class Recipe {
       prepTime: json['prepTime'],
       cookTime: json['cookTime'],
       servings: json['servings'],
+      // ingredients: Ingredient.fromJson(json['ingredients']),
       method: json['method'],
       image: json['image'],
     );

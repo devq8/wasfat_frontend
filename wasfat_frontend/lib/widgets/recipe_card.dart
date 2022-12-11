@@ -27,6 +27,51 @@ class RecipeCard extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Padding(
+              padding: EdgeInsets.all(5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(3),
+                    child: Text(
+                      '${recipe.category.title}',
+                      style: TextStyle(fontSize: 11),
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                  ),
+                  Spacer(),
+                  InkWell(
+                    onTap: () {
+                      print('Rate function');
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                        ),
+                        Text('4.5')
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      print('Make favorite function');
+                    },
+                    child: Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,12 +80,6 @@ class RecipeCard extends StatelessWidget {
                     recipe.title,
                     style: TextStyle(fontSize: 15),
                     overflow: TextOverflow.ellipsis,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      print('Make favorite function');
-                    },
-                    child: Icon(Icons.favorite_outline),
                   ),
                 ],
               ),

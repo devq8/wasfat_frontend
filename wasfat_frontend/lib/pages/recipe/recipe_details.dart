@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:wasfat_frontend/models/recipe_model.dart';
 
 class RecipeDetails extends StatelessWidget {
@@ -14,6 +15,16 @@ class RecipeDetails extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: IconButton(
+                    onPressed: () => {
+                          print('This should redirect to Edit Recipe page!'),
+                        },
+                    icon: Icon(Icons.more_vert)),
+              ),
+            ],
             expandedHeight: 300,
             floating: true,
             backgroundColor: Color(0xFFf14b24),
@@ -55,28 +66,75 @@ class RecipeDetails extends StatelessWidget {
               ),
             ),
           ),
-          SliverPadding(padding: EdgeInsets.symmetric(vertical: 15)),
+          SliverPadding(padding: EdgeInsets.symmetric(vertical: 8)),
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: 60,
-                  child: Text(
-                    'Ingredients',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Container(
+                        padding: EdgeInsets.all(7),
+                        child: Text('${recipe.category.title}'),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black26),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                      ),
                     ),
-                  ),
+                    Spacer(),
+                    Icon(
+                      Icons.star,
+                      color: Colors.orange,
+                    ),
+                    Text('4.5 (231)'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Icon(Icons.favorite, color: Colors.red),
+                    ),
+                  ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: GridView(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+              ],
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      height: 60,
+                      child: Text(
+                        'Ingredients',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    children: [],
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text('Created by Khaled'),
+                    ),
+                  ],
+                ),
+                // recipe.ingredients
+                //     .map((e) => MultiSelectItem(e, e.title))
+                //     .toList(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Wrap(
+                    spacing: 6,
+                    children: [
+                      for (int i = 0; i < 10; i++)
+                        Chip(
+                          label: Text('Ingredient $i'),
+                        )
+                    ],
                   ),
                 ),
                 Container(
@@ -102,7 +160,7 @@ class RecipeDetails extends StatelessWidget {
               ],
             ),
           ),
-
+          SliverPadding(padding: EdgeInsets.symmetric(vertical: 20)),
           // SliverGrid(
           //   delegate: SliverChildBuilderDelegate((context, index) {
           //     return Card(

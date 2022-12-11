@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +17,8 @@ import 'package:wasfat_frontend/pages/category/categories.dart';
 import 'package:wasfat_frontend/pages/recipe/recipe_details.dart';
 import 'package:wasfat_frontend/pages/category/edit_category.dart';
 import 'package:wasfat_frontend/pages/recipe/list.dart';
-import 'package:wasfat_frontend/pages/auth/signin.dart';
-import 'package:wasfat_frontend/pages/auth/signup.dart';
+import 'package:wasfat_frontend/pages/auth/sign_in.dart';
+import 'package:wasfat_frontend/pages/auth/sign_up.dart';
 import 'package:wasfat_frontend/pages/splash.dart';
 import 'package:wasfat_frontend/providers/category_provider.dart';
 import 'package:wasfat_frontend/providers/ingredient_provider.dart';
@@ -25,11 +26,12 @@ import 'package:wasfat_frontend/providers/recipe_provider.dart';
 
 import 'providers/auth_provider.dart';
 
-void main() async {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid) {
     Client.dio.options = BaseOptions(baseUrl: "http://10.0.2.2:8000");
   }
+  // await dotenv.load(fileName: '.env');
   runApp(MyApp());
 }
 
